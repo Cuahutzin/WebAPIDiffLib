@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DiffLib
 {
-    public class Class1
+    public class CentralCheckRequestResult
     {
     }
 }
