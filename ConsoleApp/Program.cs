@@ -4,99 +4,82 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DiffLib;
+using DiffLib.Packets;
 
 namespace ConsoleApp
 {
-    //Aqui me qeude: centralendpoint es el que necesita el ISender
     class Program
     {
         static void Main(string[] args)
         {
-            IDiffCentral central = new CentralImplementation(new List<string>() { "workerid1", "workerid2" });
+            //IDiffCentral central = new CentralImplementation(new List<string>() { "workerid1", "workerid2", "workerid3" });
 
-            HardcodedSender firstClientSender = new HardcodedSender(
-                (url, data) =>
-                {
-                    //central.CreateRequest()
-                    return null;
-                });
-            HardcodedSender secondClientSender = new HardcodedSender(
-                (url, data) =>
-                {
-                    //central.CreateRequest()
-                    return null;
-                });
-            string id = CreateRequest(firstClientSender);
-            CompleteRequest(id, secondClientSender);
-            
-
-            
-        }
-
-        static string CreateRequest(ISender sender)
-        {
-            IDiffWorker worker = new Worker("workerid1", new CentralEndpoint("central_url_endpoint"), sender);
-            WorkerCreateRequestResult result;
-
+            var conf = new RouteConf("baseurl");
+            var worker1 = new DiffLib.Endpoints.WorkerEndpoint("w1", conf, new HardcodedSender());
+            var task = worker1.CreateIdAsync("binarydata");
+            CreateIdResponse ret = null;
             try
             {
-                result = worker.CreateRequest("mydata1");
+                ret = task.GetAwaiter().GetResult();
+                if (ret == null || string.IsNullOrEmpty(ret.Id))
+                    throw new ApplicationException("Return is null or id is empty");
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Exception for worker:{worker.Id}. Exception: {e}");
-                throw;
+                Console.WriteLine($"Exception: {e}");
+                Console.WriteLine("End of application");
+                Console.ReadLine();
+                return;
             }
 
-            if (result.ResponseEnum == StatusEnum.OK)
+            if (SecondStep(ret.Id, conf))
             {
-                Console.WriteLine($"Request was created by worker:{worker.Id} and request id:{result.Id}");
+                string result = ThirdStep(ret.Id, conf);
+                if (!string.IsNullOrEmpty(result))
+                {
+                    Console.WriteLine($"Got final result: {result}");
+                }
             }
-            else if (result.ResponseEnum == StatusEnum.Unauthorized)
-            {
-                Console.WriteLine($"Worker:{worker.Id} is not authorized by Central");
-            }
-            else
-            {
-                Console.WriteLine($"This status for this request does not make sense:{result.ResponseEnum}");
-            }
-            return result.Id;
+            Console.WriteLine("End of application");
+            Console.ReadLine();
         }
 
-        static void CompleteRequest(string id, ISender sender)
+        static bool SecondStep(string id, RouteConf conf)
         {
-            ///SECOND WORKER SECOND WORKER SECOND WORKER
-            IDiffWorker worker = new Worker("workerid2", new CentralEndpoint("central_url_endpoint"), sender);
-            WorkerCreateRequestResult result2;
-
+            var worker1 = new DiffLib.Endpoints.WorkerEndpoint("w2", conf, new HardcodedSender());
+            var task = worker1.CompleteIdAsync(id, "binarydata");
+            CompleteIdResponse ret = null;
             try
             {
-                result2 = worker.CompleteRequest(id, "mydata1");
+                ret = task.GetAwaiter().GetResult();
+                if (ret == null || string.IsNullOrEmpty(ret.Id))
+                    throw new ApplicationException("SecondStep=> Return is null or id is empty");
             }
             catch (Exception e)
             {
-                Console.WriteLine($"Exception for worker:{worker.Id}. Exception: {e}");
-                throw;
+                Console.WriteLine($"SecondStep=> Exception: {e}");
+                return false;
             }
-
-            if (result2.ResponseEnum == StatusEnum.OK)
-            {
-                Console.WriteLine($"Request was created by worker:{worker.Id} and request id:{result2.Id}");
-            }
-            else if (result2.ResponseEnum == StatusEnum.Unauthorized)
-            {
-                Console.WriteLine($"Worker:{worker.Id} is not authorized by Central");
-            }
-            else if (result2.ResponseEnum == StatusEnum.IdNotCreated)
-            {
-                Console.WriteLine($"Request id:{result2.Id} was not created!");
-            }
-            else
-            {
-                Console.WriteLine($"This status for this request does not make sense:{result2.ResponseEnum}");
-            }
+            return true;
         }
 
-        
+        static string ThirdStep(string id, RouteConf conf)
+        {
+            var client = new DiffLib.Endpoints.CentralEndpoint("client", conf, new HardcodedSender());
+            var task = client.GetDiffAsync(id);
+            GetDiffResponse ret = null;
+            try
+            {
+                ret = task.GetAwaiter().GetResult();
+                if (ret == null || string.IsNullOrEmpty(ret.Id))
+                    throw new ApplicationException("SecondStep=> Return is null or id is empty");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"SecondStep=> Exception: {e}");
+                return null;
+            }
+            return ret.Result;
+        }
     }
 }

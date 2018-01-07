@@ -3,21 +3,64 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DiffLib;
+using DiffLib.Packets;
 
 namespace ConsoleApp
 {
     public class HardcodedSender : DiffLib.ISender
     {
-        Func<object, string, string> Handler { get; set; }
-
-        public HardcodedSender(Func<object, string, string> handler)
+        
+        async Task<T> ISender.PostAsync<T, K>(string path, K obj)
         {
-            Handler = handler;
-        }
+            Console.WriteLine($"HardcodedSender=> Path:{path}");
+            T t = default(T);
+            //t = await Task.Run<T>(() => { return default(T); });
+            if (path == "/v1/diff/create")
+            {
+                t = await Task.Run<T>(() =>
+                {
+                    CreateIdRequest objn = obj as CreateIdRequest;
+                    if (objn == null)
+                        throw new ApplicationException("Incorrect request object for /v1/diff/create");
 
-        public object Send(string url, string data)
-        {
-            return Handler(url, data);
+                    string newId = objn.WorkerId + "NEWID";
+                    return new CreateIdResponse() { Id = newId } as T;
+                });
+            }
+
+            else if (path.StartsWith("/v1/diff/"))
+            {
+                t = await Task.Run<T>(() =>
+                {
+                    CompleteIdRequest objn = obj as CompleteIdRequest;
+                    if (objn == null)
+                        throw new ApplicationException("Incorrect request object for /v1/diff/{ID}");
+
+                    string id = path.Substring(9);
+                    if (id != "w1" + "NEWID")
+                        throw new ApplicationException("Unkown id. ID: " + id);
+                    return new CompleteIdResponse() { Id = id } as T;
+                });
+            }
+
+            else if (path.StartsWith("/v1/get-diff/"))
+            {
+                t = await Task.Run<T>(() =>
+                {
+                    GetDiffRequest objn = obj as GetDiffRequest;
+                    if (objn == null)
+                        throw new ApplicationException("Incorrect request object for /v1/get-diff/");
+
+                    string id = path.Substring(13);
+                    if (id != "w1" + "NEWID")
+                        throw new ApplicationException("Unkown id. ID: " + id);
+                    
+                    return new GetDiffResponse() { Id = id, Result = "OK" } as T;
+                });
+            }
+
+            return t;
         }
     }
 }

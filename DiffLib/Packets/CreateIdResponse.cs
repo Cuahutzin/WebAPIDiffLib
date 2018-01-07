@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiffLib
+namespace DiffLib.Packets
 {
-    public class CentralCreateRequestResult
+    public class CreateIdResponse
     {
+        public string Id { get; set; }
     }
 }

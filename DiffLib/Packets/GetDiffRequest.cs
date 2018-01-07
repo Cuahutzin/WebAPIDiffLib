@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiffLib
+namespace DiffLib.Packets
 {
-    public class CentralCheckRequestResult
+    public class GetDiffRequest
     {
+        public string WorkerId { get; set; }
     }
 }

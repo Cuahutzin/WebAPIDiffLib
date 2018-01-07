@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace DiffLib
 {
-    public class WebApiSender : ISender
+    public class IdObject
     {
+        public string Id { get; set; }
+        public string Data1 { get; set; }
+        public string Data2 { get; set; }
     }
 }
