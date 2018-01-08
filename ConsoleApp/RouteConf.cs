@@ -9,15 +9,13 @@ namespace ConsoleApp
 {
     public class RouteConf : DiffLib.Endpoints.IRouteConf
     {
-        string _BaseUrl;
-        string IRouteConf.BaseUrl => _BaseUrl;
         string IRouteConf.CreateIdPath => "/v1/diff/create";
         string CompleteIdPath => "/v1/diff/{ID}";
         string GetResultPath => "/v1/get-diff/{ID}";
 
-        public RouteConf(string baseUrl)
+        public RouteConf()
         {
-            _BaseUrl = baseUrl;
+            
         }
 
         string IRouteConf.GetCompleteIdPath(string id)

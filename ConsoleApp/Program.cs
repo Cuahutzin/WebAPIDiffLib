@@ -14,7 +14,7 @@ namespace ConsoleApp
         {
             //IDiffCentral central = new CentralImplementation(new List<string>() { "workerid1", "workerid2", "workerid3" });
 
-            var conf = new RouteConf("baseurl");
+            var conf = new RouteConf();
             var worker1 = new DiffLib.Endpoints.WorkerEndpoint("w1", conf, new HardcodedSender());
             var task = worker1.CreateIdAsync("binarydata");
             CreateIdResponse ret = null;

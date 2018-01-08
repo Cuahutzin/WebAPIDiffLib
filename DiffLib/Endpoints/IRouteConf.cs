@@ -8,7 +8,6 @@ namespace DiffLib.Endpoints
 {
     public interface IRouteConf
     {
-        string BaseUrl { get; }
         string CreateIdPath { get; }
 
         string GetResultPath(string id);
