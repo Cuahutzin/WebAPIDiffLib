@@ -9,7 +9,7 @@ namespace DiffLib.Packets
     public class GetDiffResponse
     {
         public string Id { get; set; } = string.Empty;
-        public string Result { get; set; } = string.Empty;
+        public DiffLib.DiffResult Result { get; set; }
         
     }
 }

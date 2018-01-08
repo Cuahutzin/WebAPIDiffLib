@@ -8,8 +8,8 @@ namespace DiffLib
 {
     public interface ICentralServer
     {
-        string CreateId(string data);
-        bool CompleteId(string id, string data);
-        string GetDiff(string id);
+        string CreateId(string workerId, string data);
+        bool CompleteId(string workerId, string id, string data);
+        DiffResult GetDiff(string workerId, string id);
     }
 }

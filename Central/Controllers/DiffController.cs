@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -10,15 +11,15 @@ namespace Central.Controllers
 {
     public class DiffController : ApiController
     {
-        protected DiffLib.ICentralServer Central;
-
+        DiffLib.ICentralServer Central;
+        
         public DiffController()
         {
             var state = System.Web.HttpContext.Current.Cache[WebApiApplication.CentralStateKey] as DiffLib.CentralServerState;
             if (state == null)
                 throw new NullReferenceException($"Cache with key: {WebApiApplication.CentralStateKey} is null!");
 
-            Central = new DiffLib.AspNetCentralServer(state);
+            Central = new DiffLib.AspNetCentralServer(ConfigurationManager.AppSettings["AuthorizedWorkerId"], state);
         }
         [Route("api/v{version:apiVersion}/diff")]
         [HttpPost]
@@ -27,7 +28,7 @@ namespace Central.Controllers
             if (data == null)
                 throw new NullReferenceException("data is null");
 
-            string id = Central.CreateId(data.Data);
+            string id = Central.CreateId(data.WorkerId, data.Data);
 
             return new DiffLib.Packets.CreateIdResponse() { Id = id };
         }
@@ -39,7 +40,7 @@ namespace Central.Controllers
             if (data == null)
                 throw new NullReferenceException("data is null");
 
-            if (!Central.CompleteId(id, data.Data))
+            if (!Central.CompleteId(data.WorkerId, id, data.Data))
                 throw new ApplicationException("Central complete id failed to return true.");
 
             return new DiffLib.Packets.CompleteIdResponse() { Id = id };
@@ -52,7 +53,7 @@ namespace Central.Controllers
             if (data == null)
                 throw new NullReferenceException("data is null");
 
-            var result = Central.GetDiff(id);
+            var result = Central.GetDiff(data.WorkerId, id);
 
             return new DiffLib.Packets.GetDiffResponse() { Id = id, Result = result };
         }

@@ -18,14 +18,17 @@ namespace DiffLib.Endpoints
             Sender = sender;
         }
 
-        public Task<Packets.CreateIdResponse> CreateIdAsync(string data)
+        public Task<Packets.CreateIdResponse> CreateIdAsync(byte[] dx)
         {
+            string data = Convert.ToBase64String(dx);
             return Sender.PostAsync<CreateIdResponse, CreateIdWorkerRequest>(Conf.CreateIdPath, new CreateIdWorkerRequest() { Data = data });
         }
-
-        public Task<Packets.CompleteIdResponse> CompleteIdAsync(string id, string data)
+        
+        public Task<Packets.CompleteIdResponse> CompleteIdAsync(string id, byte[] dx)
         {
+            string data = Convert.ToBase64String(dx);
             return Sender.PostAsync<CompleteIdResponse, CompleteIdWorkerRequest>(Conf.GetCompleteIdPath(id), new CompleteIdWorkerRequest() { Data = data });
         }
+        
     }
 }

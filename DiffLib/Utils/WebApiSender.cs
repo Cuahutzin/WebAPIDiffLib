@@ -27,6 +27,11 @@ namespace DiffLib
             {
                 ret = await response.Content.ReadAsAsync(typeof(T)) as T;
             }
+            else
+            {
+                string str = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException("Response status code is not successful. Content: " + str);
+            }
             return ret;
         }
 
@@ -37,6 +42,11 @@ namespace DiffLib
             if (response.IsSuccessStatusCode)
             {
                 ret = await response.Content.ReadAsAsync(typeof(T)) as T;
+            }
+            else
+            {
+                string str = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException("Response status code is not successful. Content: " + str);
             }
             return ret;
         }

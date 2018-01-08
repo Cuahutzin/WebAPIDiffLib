@@ -42,10 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HardcodedSender.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HardcodedRouteConf.cs" />
     <Compile Include="RouteConfTest.cs" />
   </ItemGroup>
   <ItemGroup>
