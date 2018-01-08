@@ -20,7 +20,7 @@ namespace ConsoleApp
             {
                 t = await Task.Run<T>(() =>
                 {
-                    CreateIdRequest objn = obj as CreateIdRequest;
+                    CreateIdCentralRequest objn = obj as CreateIdCentralRequest;
                     if (objn == null)
                         throw new ApplicationException("Incorrect request object for /v1/diff/create");
 
@@ -33,7 +33,7 @@ namespace ConsoleApp
             {
                 t = await Task.Run<T>(() =>
                 {
-                    CompleteIdRequest objn = obj as CompleteIdRequest;
+                    CompleteIdCentralRequest objn = obj as CompleteIdCentralRequest;
                     if (objn == null)
                         throw new ApplicationException("Incorrect request object for /v1/diff/{ID}");
 

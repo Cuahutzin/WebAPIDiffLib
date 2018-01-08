@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DiffLib.Packets
 {
-    public class CreateIdRequest
+    public class CreateIdCentralRequest
     {
-        public string WorkerId { get; set; }
-        public string Data { get; set; }
+        public string WorkerId { get; set; } = string.Empty;
+        public string Data { get; set; } = string.Empty;
     }
 }

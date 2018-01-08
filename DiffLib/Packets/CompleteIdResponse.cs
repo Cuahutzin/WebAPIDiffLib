@@ -8,6 +8,6 @@ namespace DiffLib.Packets
 {
     public class CompleteIdResponse
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
     }
 }

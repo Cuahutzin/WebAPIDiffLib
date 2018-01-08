@@ -21,36 +21,56 @@ namespace Worker.Controllers
             return endpoint;
         }
         [Route("api/v{version:apiVersion}/diff")]
-        [HttpGet]
-        public async Task<DiffLib.Packets.CreateIdResponse> Create([FromBody] string data)
+        [HttpPost]
+        public async Task<DiffLib.Packets.CreateIdResponse> Create([FromBody] DiffLib.Packets.CreateIdWorkerRequest data)
         {
-            //string data = "";
-            if (string.IsNullOrEmpty(data))
-                throw new ArgumentException("Data is null or empty");
-            
-            return await CreateCentralEndPoint().CreateIdAsync(data);
+            if (data == null)
+                throw new NullReferenceException("data is null");
+
+            return await CreateCentralEndPoint().CreateIdAsync(data.Data);
         }
 
         [Route("api/v{version:apiVersion}/diff/{id}")]
-        [HttpGet]
-        public async Task<DiffLib.Packets.CompleteIdResponse> Complete(string id, [FromBody] string data)
+        [HttpPost]
+        public async Task<DiffLib.Packets.CompleteIdResponse> Complete(string id, [FromBody] DiffLib.Packets.CompleteIdWorkerRequest data)
         {
-            //string data = "";
-            if (string.IsNullOrEmpty(id))
-                throw new ArgumentException("Data is null or empty");
-            
-            return await CreateCentralEndPoint().CompleteIdAsync(id, data);
+            if (data == null)
+                throw new NullReferenceException("data is null");
+
+            return await CreateCentralEndPoint().CompleteIdAsync(id, data.Data);
         }
 
 
         [Route("api/v{version:apiVersion}/test/diff/{id}")]
-        [HttpGet]
-        public async Task<DiffLib.Packets.CompleteIdResponse> Test(string id, [FromBody] string data)
+        [HttpPost]
+        public async Task<DiffLib.Packets.CompleteIdResponse> Test(string id, [FromBody] DiffLib.Packets.CompleteIdWorkerRequest data)
         {
             id = id ?? "EMPTY";
-            data = data ?? "EMPTY";
+            string xdata = "";
+            if (data == null)
+                xdata = "ISNULL";
+            else
+            {
+                xdata = data.Data;
+            }
             
-            return await Task.Run(() => new DiffLib.Packets.CompleteIdResponse() { Id = id + "|" + data });
+            return await Task.Run(() => new DiffLib.Packets.CompleteIdResponse() { Id = id + "|" + xdata });
+        }
+
+        [Route("api/v{version:apiVersion}/test/diff/{id}")]
+        [HttpGet]
+        public async Task<DiffLib.Packets.CompleteIdResponse> TestGet(string id, [FromBody] DiffLib.Packets.CompleteIdWorkerRequest data)
+        {
+            id = id ?? "EMPTY";
+            string xdata = "";
+            if (data == null)
+                xdata = "ISNULL";
+            else
+            {
+                xdata = data.Data;
+            }
+
+            return await Task.Run(() => new DiffLib.Packets.CompleteIdResponse() { Id = id + "|" + xdata });
         }
     }
 

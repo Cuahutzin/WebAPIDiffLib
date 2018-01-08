@@ -5,17 +5,17 @@ using System.Text;
 using System.Threading.Tasks;
 using DiffLib.Endpoints;
 
-namespace Utils
+namespace ConsoleApp
 {
-    public class RouteConf : DiffLib.Endpoints.IRouteConf
+    public class HardcodedRouteConf : DiffLib.Endpoints.IRouteConf
     {
-        string IRouteConf.CreateIdPath => "/api/v1.0/diff";
-        string CompleteIdPath => "/api/v1.0/diff/{ID}";
-        string GetResultPath => "/api/v1.0/getdiff/{ID}";
+        string IRouteConf.CreateIdPath => "/v1/diff/create";
+        string CompleteIdPath => "/v1/diff/{ID}";
+        string GetResultPath => "/v1/get-diff/{ID}";
 
-        public RouteConf()
+        public HardcodedRouteConf()
         {
-
+            
         }
 
         string IRouteConf.GetCompleteIdPath(string id)

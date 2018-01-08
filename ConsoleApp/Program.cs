@@ -10,76 +10,98 @@ namespace ConsoleApp
 {
     class Program
     {
+        static string WorkerBaseAddr = "http://localhost:49778";
+        static string CentralBaseAddtr = "http://localhost:49782";
+        static string WorkerId = "w1";
+
         static void Main(string[] args)
         {
-            //IDiffCentral central = new CentralImplementation(new List<string>() { "workerid1", "workerid2", "workerid3" });
-
-            var conf = new RouteConf();
-            var worker1 = new DiffLib.Endpoints.WorkerEndpoint("w1", conf, new HardcodedSender());
-            var task = worker1.CreateIdAsync("binarydata");
-            CreateIdResponse ret = null;
-            try
+            var id = Step1();
+            if (!string.IsNullOrEmpty(id))
             {
-                ret = task.GetAwaiter().GetResult();
-                if (ret == null || string.IsNullOrEmpty(ret.Id))
-                    throw new ApplicationException("Return is null or id is empty");
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($"Exception: {e}");
-                Console.WriteLine("End of application");
-                Console.ReadLine();
-                return;
-            }
-
-            if (SecondStep(ret.Id, conf))
-            {
-                string result = ThirdStep(ret.Id, conf);
-                if (!string.IsNullOrEmpty(result))
+                if(id == Step2(id))
                 {
-                    Console.WriteLine($"Got final result: {result}");
+                    Step3(id);
                 }
             }
             Console.WriteLine("End of application");
             Console.ReadLine();
         }
 
-        static bool SecondStep(string id, RouteConf conf)
+        static string Step1()
         {
-            var worker1 = new DiffLib.Endpoints.WorkerEndpoint("w2", conf, new HardcodedSender());
-            var task = worker1.CompleteIdAsync(id, "binarydata");
-            CompleteIdResponse ret = null;
+            var newconf = new RouteConfTest();
+            var worker1x = new DiffLib.Endpoints.WorkerEndpoint(newconf, new DiffLib.WebApiSender(WorkerBaseAddr));
+            var task = worker1x.CreateIdAsync("mydata1");
             try
             {
-                ret = task.GetAwaiter().GetResult();
-                if (ret == null || string.IsNullOrEmpty(ret.Id))
-                    throw new ApplicationException("SecondStep=> Return is null or id is empty");
+                var realobj = task.GetAwaiter().GetResult();
+                if (realobj == null)
+                {
+                    Console.WriteLine("Step1:Obj is null");
+                }
+                else
+                {
+                    Console.WriteLine("Result 1: " + realobj.Id);
+                    return realobj.Id;
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"SecondStep=> Exception: {e}");
-                return false;
+                Console.WriteLine($"Exception: {e}");
             }
-            return true;
+            return null;
         }
 
-        static string ThirdStep(string id, RouteConf conf)
+        static string Step2(string id)
         {
-            var client = new DiffLib.Endpoints.CentralEndpoint("client", conf, new HardcodedSender());
-            var task = client.GetDiffAsync(id);
-            GetDiffResponse ret = null;
+            var newconf = new RouteConfTest();
+            var worker1x = new DiffLib.Endpoints.WorkerEndpoint(newconf, new DiffLib.WebApiSender(WorkerBaseAddr));
+            var task = worker1x.CompleteIdAsync(id, "mydata2BIGGER");
             try
             {
-                ret = task.GetAwaiter().GetResult();
-                if (ret == null || string.IsNullOrEmpty(ret.Id))
-                    throw new ApplicationException("SecondStep=> Return is null or id is empty");
+                var realobj = task.GetAwaiter().GetResult();
+                if (realobj == null)
+                {
+                    Console.WriteLine("Step2:Obj is null");
+                }
+                else
+                {
+                    Console.WriteLine("Result 2: " + realobj.Id);
+                    return realobj.Id;
+                }
             }
             catch (Exception e)
             {
-                Console.WriteLine($"SecondStep=> Exception: {e}");
-                return null;
+                Console.WriteLine($"Exception: {e}");
             }
-            return ret.Result;
+            return null;
         }
+
+        static string Step3(string id)
+        {
+            var newconf = new RouteConfTest();
+            var worker1x = new DiffLib.Endpoints.CentralEndpoint(WorkerId, newconf, new DiffLib.WebApiSender(CentralBaseAddtr));
+            var task = worker1x.GetDiffAsync(id);
+            try
+            {
+                var realobj = task.GetAwaiter().GetResult();
+                if (realobj == null)
+                {
+                    Console.WriteLine("Step3:Obj is null");
+                }
+                else
+                {
+                    Console.WriteLine($"Result 3: {realobj.Id} | Data:{realobj.Result}");
+                    return realobj.Id;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Exception: {e}");
+            }
+            return null;
+        }
+
     }
 }

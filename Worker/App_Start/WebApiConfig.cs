@@ -13,6 +13,8 @@ namespace Worker
             // Web API configuration and services
 
             // Web API routes
+
+            //config.AddApiVersioning(); and constraintResolver were added for api versioning and commented MapHttpRoute
             var constraintResolver = new DefaultInlineConstraintResolver()
             {
                 ConstraintMap = { ["apiVersion"] = typeof(Microsoft.Web.Http.Routing.ApiVersionRouteConstraint) }

@@ -25,7 +25,7 @@ namespace DiffLib
             HttpResponseMessage response = await Client.GetAsync(path);
             if (response.IsSuccessStatusCode)
             {
-                ret = await response.Content.ReadAsAsync(ret.GetType()) as T;
+                ret = await response.Content.ReadAsAsync(typeof(T)) as T;
             }
             return ret;
         }
@@ -36,7 +36,7 @@ namespace DiffLib
             HttpResponseMessage response = await Client.PostAsJsonAsync(path, obj);
             if (response.IsSuccessStatusCode)
             {
-                ret = await response.Content.ReadAsAsync(ret.GetType()) as T;
+                ret = await response.Content.ReadAsAsync(typeof(T)) as T;
             }
             return ret;
         }

@@ -53,14 +53,16 @@
     <Compile Include="Endpoints\WorkerEndpoint.cs" />
     <Compile Include="ICentralServer.cs" />
     <Compile Include="IdObject.cs" />
-    <Compile Include="Packets\CompleteIdRequest.cs" />
+    <Compile Include="Packets\CompleteIdCentralRequest.cs" />
     <Compile Include="Packets\CompleteIdResponse.cs" />
+    <Compile Include="Packets\CompleteIdWorkerRequest.cs" />
+    <Compile Include="Packets\CreateIdWorkerRequest.cs" />
     <Compile Include="Packets\GetDiffRequest.cs" />
     <Compile Include="Packets\GetDiffResponse.cs" />
     <Compile Include="Utils\ISender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\WebApiSender.cs" />
-    <Compile Include="Packets\CreateIdRequest.cs" />
+    <Compile Include="Packets\CreateIdCentralRequest.cs" />
     <Compile Include="Packets\CreateIdResponse.cs" />
   </ItemGroup>
   <ItemGroup>

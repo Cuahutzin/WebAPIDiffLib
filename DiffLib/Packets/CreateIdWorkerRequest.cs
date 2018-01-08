@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DiffLib.Packets
 {
-    public class CompleteIdRequest
+    public class CreateIdWorkerRequest
     {
-        public string WorkerId { get; set; }
-        public string Data { get; set; }
+        public string Data { get; set; } = string.Empty;
     }
 }

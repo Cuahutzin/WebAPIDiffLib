@@ -11,6 +11,8 @@ namespace Central
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
+        public readonly static string CentralStateKey = "CentralState";
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -18,6 +20,8 @@ namespace Central
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            System.Web.HttpContext.Current.Cache[CentralStateKey] = new DiffLib.CentralServerState();
         }
     }
 }

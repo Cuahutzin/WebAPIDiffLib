@@ -22,12 +22,12 @@ namespace DiffLib.Endpoints
 
         public Task<Packets.CreateIdResponse> CreateIdAsync(string data)
         {
-            return Sender.PostAsync<CreateIdResponse, CreateIdRequest>(Conf.CreateIdPath, new CreateIdRequest() { WorkerId = Id, Data = data });
+            return Sender.PostAsync<CreateIdResponse, CreateIdCentralRequest>(Conf.CreateIdPath, new CreateIdCentralRequest() { WorkerId = Id, Data = data });
         }
 
         public Task<Packets.CompleteIdResponse> CompleteIdAsync(string id, string data)
         {
-            return Sender.PostAsync<CompleteIdResponse, CompleteIdRequest>(Conf.GetCompleteIdPath(id), new CompleteIdRequest() { WorkerId = Id, Data = data });
+            return Sender.PostAsync<CompleteIdResponse, CompleteIdCentralRequest>(Conf.GetCompleteIdPath(id), new CompleteIdCentralRequest() { WorkerId = Id, Data = data });
         }
 
         public Task<Packets.GetDiffResponse> GetDiffAsync(string id)

@@ -6,31 +6,44 @@ using System.Threading.Tasks;
 
 namespace DiffLib
 {
+    /// <summary>
+    /// WARNING: TODO, IdObjects are not thread safe
+    /// </summary>
     public class CentralServerState
     {
-        public Dictionary<string, IdObject> Table { get; private set; }
+        public Dictionary<string, IdObject> Table { get; private set; } = new Dictionary<string, IdObject>();
+        private object Lock = new object();
 
         public string NewId(string data)
         {
             string id = Guid.NewGuid().ToString();
-            Table.Add(id, new IdObject() { Id = id, Data1 = data });
+            lock (Lock)
+            {
+                Table.Add(id, new IdObject() { Id = id, Data1 = data });
+            }
             return id;
         }
 
         public bool CompleteId(string id, string data)
         {
-            if (Table.ContainsKey(id))
+            lock (Lock)
             {
-                var obj = Table[id];
-                obj.Data2 = data;
-                return true;
+                if (Table.ContainsKey(id))
+                {
+                    var obj = Table[id];
+                    obj.Data2 = data;
+                    return true;
+                }
             }
             return false;
         }
 
         public IdObject Get(string id)
         {
-            return Table.ContainsKey(id) ? Table[id] : null;
+            lock (Lock)
+            {
+                return Table.ContainsKey(id) ? Table[id] : null;
+            }
         }
     }
 }

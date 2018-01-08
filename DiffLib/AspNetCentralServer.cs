@@ -28,8 +28,20 @@ namespace DiffLib
         string ICentralServer.GetDiff(string id)
         {
             var obj = State.Get(id);
-            //TODO do work
-            return "OK";
+            if (obj == null)
+                throw new KeyNotFoundException("Id does not exist. " + id);
+
+            if(obj.Data1.Length == obj.Data2.Length)
+            {
+                return "SAME_LENGTH";
+            }else if(obj.Data1.Length > obj.Data2.Length)
+            {
+                return "Data1 is BIGGER";
+            }
+            else
+            {
+                return "Data2 is BIGGER";
+            }
         }
     }
 }
