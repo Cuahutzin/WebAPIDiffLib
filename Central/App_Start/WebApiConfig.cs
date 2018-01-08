@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Http;
 using System.Web.Http.Routing;
+using Unity;
+using Unity.AspNet.WebApi;
+using Unity.Lifetime;
 
 namespace Central
 {
@@ -10,8 +14,6 @@ namespace Central
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
-
             // Web API routes
             var constraintResolver = new DefaultInlineConstraintResolver()
             {

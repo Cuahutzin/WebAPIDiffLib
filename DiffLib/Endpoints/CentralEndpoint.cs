@@ -7,7 +7,7 @@ using DiffLib.Packets;
 
 namespace DiffLib.Endpoints
 {
-    public class CentralEndpoint
+    public class CentralEndpoint : ICentralEndpoint
     {
         public string Id { get; private set; }
         protected IRouteConf Conf { get; private set; }

@@ -12,14 +12,12 @@ namespace Worker.Controllers
     [Microsoft.Web.Http.ApiVersion("1.0")]
     public class DiffController : ApiController
     {
-        DiffLib.Endpoints.CentralEndpoint CreateCentralEndPoint()
+        DiffLib.ICentralEndpoint CentralEndPoint;
+        public DiffController(DiffLib.ICentralEndpoint endpoint)
         {
-            string _id = ConfigurationManager.AppSettings["WorkerId"];
-            string url = ConfigurationManager.AppSettings["CentralBaseUrl"];
-
-            var endpoint = new DiffLib.Endpoints.CentralEndpoint(_id, new Utils.RouteConf(), new DiffLib.WebApiSender(url));
-            return endpoint;
+            CentralEndPoint = endpoint;
         }
+        
         [Route("api/v{version:apiVersion}/diff")]
         [HttpPost]
         public async Task<DiffLib.Packets.CreateIdResponse> Create([FromBody] DiffLib.Packets.CreateIdWorkerRequest data)
@@ -27,7 +25,7 @@ namespace Worker.Controllers
             if (data == null)
                 throw new NullReferenceException("data is null");
 
-            return await CreateCentralEndPoint().CreateIdAsync(data.Data);
+            return await CentralEndPoint.CreateIdAsync(data.Data);
         }
 
         [Route("api/v{version:apiVersion}/diff/{id}")]
@@ -37,7 +35,7 @@ namespace Worker.Controllers
             if (data == null)
                 throw new NullReferenceException("data is null");
 
-            return await CreateCentralEndPoint().CompleteIdAsync(id, data.Data);
+            return await CentralEndPoint.CompleteIdAsync(id, data.Data);
         }
 
 

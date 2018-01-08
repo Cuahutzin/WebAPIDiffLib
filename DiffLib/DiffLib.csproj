@@ -54,6 +54,7 @@
     <Compile Include="Endpoints\CentralEndpoint.cs" />
     <Compile Include="Endpoints\IRouteConf.cs" />
     <Compile Include="Endpoints\WorkerEndpoint.cs" />
+    <Compile Include="ICentralEndpoint.cs" />
     <Compile Include="ICentralServer.cs" />
     <Compile Include="IdObject.cs" />
     <Compile Include="Packets\CompleteIdCentralRequest.cs" />

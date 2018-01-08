@@ -13,14 +13,11 @@ namespace Central.Controllers
     {
         DiffLib.ICentralServer Central;
         
-        public DiffController()
+        public DiffController(DiffLib.ICentralServer central)
         {
-            var state = System.Web.HttpContext.Current.Cache[WebApiApplication.CentralStateKey] as DiffLib.CentralServerState;
-            if (state == null)
-                throw new NullReferenceException($"Cache with key: {WebApiApplication.CentralStateKey} is null!");
-
-            Central = new DiffLib.AspNetCentralServer(ConfigurationManager.AppSettings["AuthorizedWorkerId"], state);
+            Central = central;
         }
+
         [Route("api/v{version:apiVersion}/diff")]
         [HttpPost]
         public DiffLib.Packets.CreateIdResponse Create([FromBody] DiffLib.Packets.CreateIdCentralRequest data)

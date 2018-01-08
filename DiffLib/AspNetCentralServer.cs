@@ -14,6 +14,8 @@ namespace DiffLib
         public AspNetCentralServer(string authorizedWorkerId, CentralServerState state)
         {
             State = state;
+            if (string.IsNullOrEmpty(authorizedWorkerId))
+                throw new ArgumentException("authorizedWorkerId is null or empty");
             WorkerId = authorizedWorkerId;
         }
 

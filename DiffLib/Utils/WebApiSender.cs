@@ -19,7 +19,7 @@ namespace DiffLib
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        async Task<T> GetAsync<T>(string path) where T : class, new()
+        private async Task<T> GetAsync<T>(string path) where T : class, new()
         {
             T ret = default(T);
             HttpResponseMessage response = await Client.GetAsync(path);

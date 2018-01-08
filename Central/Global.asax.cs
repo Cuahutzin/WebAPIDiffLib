@@ -15,13 +15,13 @@ namespace Central
 
         protected void Application_Start()
         {
+            System.Web.HttpContext.Current.Cache[CentralStateKey] = new DiffLib.CentralServerState();
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-
-            System.Web.HttpContext.Current.Cache[CentralStateKey] = new DiffLib.CentralServerState();
         }
     }
 }
