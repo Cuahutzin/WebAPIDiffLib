@@ -12,7 +12,7 @@ namespace Worker.Tests
     public class DiffLibCentralServerState
     {
         [TestMethod]
-        public void MultiThreadNewIdTest()
+        public void MultiThreadTest()
         {
             var t = new DiffLib.CentralServerState();
 

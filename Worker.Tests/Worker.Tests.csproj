@@ -111,6 +111,7 @@
     <Compile Include="DiffLibAspNetCentralServer.cs" />
     <Compile Include="DiffLibCentralServerState.cs" />
     <Compile Include="CentralDiffController.cs" />
+    <Compile Include="IntegrationTest.cs" />
     <Compile Include="WorkerDiffController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
