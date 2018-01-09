@@ -6,6 +6,9 @@ Two byte arrays (base64 encoded) are sent to host1 and host2 respectively, from 
 Host3 (central) will process the request by decoding, and performing a diff between these 2 byte arrays, 
 and a result will be given to the client. To see an example go to ConsoleApp\Program.cs or Tests\IntegrationTest.cs
 
+Data between clients and servers is through HttpClient from .NET Framework (Json). AspNet Web Api framework automatically serializes
+and deserializes objects between requests and responses.
+
 Server base addresses:
 	Worker: http://localhost:49778/
 	Central: http://localhost:49782/
@@ -16,10 +19,12 @@ the client will have to point to a different server when requesting to host2.
 - Worker project needs a base address to Central server
 - ConsoleApp and Tests projects base addresses are hardcoded
 - Api routes are found inside Utils\RouteConf.cs
+- Singleton instances are created and registered to an unity container (UnityConfig.cs)
 
 How to run:
 	- Open visual studio solution
 	- Run Central and Worker projects (IIS Express)
+		- To leave them running, select Debug -> Detach All from Visual Studio
 	- Run automated tests (Tests project) or run ConsoleApp project
 
 External libraries used:
@@ -42,7 +47,7 @@ Central
 		- inserted into the HttpContext current cache.
 	- Create: recieves base64 encoded data and returns an id
 	- Complete: recieves an id and base64 encoded data and returns the same id
-	- GetDiff: recieves an id and returns a diff result between the decoded data
+	- GetDiff: recieves an id and returns a diff result based on the decoded data
 
 Worker
 	- AspNet Web Api that handles create and complete api requests, and passes them to a Central server
@@ -53,7 +58,7 @@ DiffLib
 	- Packets namespace: Contains the request and response objects that clients, central and worker servers use.
 	- Utils namespace: Contains ISender interface and WebApiSender implementation that endpoints use to send data
 	- AspNetCentralServer: Diff Implementation
-	- CentralServerState: Holds the created ids and data between requests
+	- CentralServerState: Holds the created ids and data between requests. Thread safe.
 	- DiffResult: Actual result from diff
 
 Utils

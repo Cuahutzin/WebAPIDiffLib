@@ -12,11 +12,29 @@ namespace Tests
     [TestClass]
     public class IntegrationTest
     {
+        /// <summary>
+        /// Worker server
+        /// </summary>
         static string WorkerBaseAddr = "http://localhost:49778";
+        /// <summary>
+        /// Central server
+        /// </summary>
         static string CentralBaseAddtr = "http://localhost:49782";
+        /// <summary>
+        /// Whitelisted worker id
+        /// </summary>
         static string WorkerId = "w1";
+        /// <summary>
+        /// Route api holder
+        /// </summary>
         static Utils.RouteConf Conf = new Utils.RouteConf();
 
+        /// <summary>
+        /// Integration test. Happy path, means no erronous data is sent.
+        /// Client sends request to worker server (createid)
+        /// Client sends request to worker server (completeid)
+        /// Client sends request to process diff (getdiff)
+        /// </summary>
         [TestMethod]
         public void IntegrationTest_HappyPath()
         {
@@ -50,6 +68,9 @@ namespace Tests
             Assert.IsTrue(result3.Result.Result == DiffLib.DiffResultEnum.SameSize_ContentNotEqual);
         }
 
+        /// <summary>
+        /// Send erronous data to worker server. An empty byte array
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ApplicationException), "data variable is empty or null")]
         public void IntegrationTest_ArrayByteIsEmpty()

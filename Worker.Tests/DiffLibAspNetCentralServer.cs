@@ -12,6 +12,9 @@ namespace Tests
     [TestClass]
     public class DiffLibAspNetCentralServer
     {
+        /// <summary>
+        /// Create id test
+        /// </summary>
         [TestMethod]
         public void CreateIdShouldWork()
         {
@@ -24,6 +27,9 @@ namespace Tests
             Assert.AreEqual(id, "id1");
         }
 
+        /// <summary>
+        /// Complete id test.
+        /// </summary>
         [TestMethod]
         public void CompleteIdShouldWork()
         {
@@ -36,6 +42,9 @@ namespace Tests
             Assert.AreEqual(id, true);
         }
         
+        /// <summary>
+        /// Diff test. Both arrays are the same. Result should be Equal
+        /// </summary>
         [TestMethod]
         public void GetDiffShouldWorkAndReturnSameContent()
         {
@@ -57,6 +66,9 @@ namespace Tests
             Assert.IsTrue(result.Offsets.Count == 0, "No offsets should be created");
         }
 
+        /// <summary>
+        /// Diff test. Byte arrays have different content same length. Result should be ContentNotEqual
+        /// </summary>
         [TestMethod]
         public void GetDiffShouldReturnSameSizeContentNotEqual()
         {
@@ -78,6 +90,9 @@ namespace Tests
             Assert.IsTrue(result.Offsets.Count > 0, "Offsets should be created");
         }
 
+        /// <summary>
+        /// Diff test. Byte arrays have different length. Result should be NotEqualSize
+        /// </summary>
         [TestMethod]
         public void GetDiffShouldReturnDifferentSize()
         {
@@ -99,6 +114,9 @@ namespace Tests
             Assert.IsTrue(result.Offsets.Count == 0, "No offsets should be created");
         }
 
+        /// <summary>
+        /// Diff test. Byte array have a different byte on the last position
+        /// </summary>
         [TestMethod]
         public void GetDiffTestOffsetLastIndex()
         {
@@ -120,6 +138,9 @@ namespace Tests
             Assert.IsTrue(result.Offsets.Count > 0, "Offsets should be created");
         }
 
+        /// <summary>
+        /// Worker Id whitelist test.
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ApplicationException), "Worker is not authorized. Id: ")]
         public void CreateIdShouldFailBecauseUnauthorizedWorker()

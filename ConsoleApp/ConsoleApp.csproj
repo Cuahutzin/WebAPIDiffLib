@@ -44,7 +44,6 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RouteConfTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -53,6 +52,10 @@
     <ProjectReference Include="..\DiffLib\DiffLib.csproj">
       <Project>{9f63c426-0c87-442a-8b08-390cf6f7a27d}</Project>
       <Name>DiffLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{cecd73e0-f433-4ac2-b704-7b95f408f2d9}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

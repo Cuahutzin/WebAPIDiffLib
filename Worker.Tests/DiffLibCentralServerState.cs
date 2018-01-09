@@ -11,6 +11,10 @@ namespace Tests
     [TestClass]
     public class DiffLibCentralServerState
     {
+        /// <summary>
+        /// CentralServerState operation and concurrency tests.
+        /// NewId, CompleteId and Get in a multithreaded scenario.
+        /// </summary>
         [TestMethod]
         public void MultiThreadTest()
         {

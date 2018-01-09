@@ -37,10 +37,12 @@ namespace Central
         /// </remarks>
         public static void RegisterTypes(IUnityContainer container)
         {
+            //Get the current state from cache
             var state = System.Web.HttpContext.Current.Cache[WebApiApplication.CentralStateKey] as DiffLib.CentralServerState;
             if (state == null)
                 throw new NullReferenceException($"Cache with key: {WebApiApplication.CentralStateKey} is null!");
             
+            //Register singleton
             container.RegisterInstance<DiffLib.ICentralServer>
                 (
                     new DiffLib.AspNetCentralServer(ConfigurationManager.AppSettings["AuthorizedWorkerId"], state

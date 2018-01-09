@@ -43,9 +43,12 @@ namespace Worker
             // TODO: Register your type's mappings here.
             // container.RegisterType<IProductRepository, ProductRepository>();
 
+            //Authorized worker id
             string _id = ConfigurationManager.AppSettings["WorkerId"];
+            //Central server base address
             string url = ConfigurationManager.AppSettings["CentralBaseUrl"];
 
+            //Register singleton instance to be used by DiffController
             var endpoint = new DiffLib.Endpoints.CentralEndpoint(_id, new Utils.RouteConf(), new DiffLib.WebApiSender(url));
             container.RegisterInstance<DiffLib.ICentralEndpoint>(endpoint);
 

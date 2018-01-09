@@ -9,15 +9,27 @@ using System.Web.Http;
 
 namespace Worker.Controllers
 {
+    /// <summary>
+    /// DiffController for diff operations.
+    /// Create and Complete are passed to central server
+    /// </summary>
     [Microsoft.Web.Http.ApiVersion("1.0")]
     public class DiffController : ApiController
     {
+        /// <summary>
+        /// Central server endpoint interface
+        /// </summary>
         DiffLib.ICentralEndpoint CentralEndPoint;
         public DiffController(DiffLib.ICentralEndpoint endpoint)
         {
             CentralEndPoint = endpoint;
         }
-        
+
+        /// <summary>
+        /// Sends request to central server to create an id (For more info go to DiffLib.Endpoints or DiffLib.AspNetCentralServer)
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [Route("api/v{version:apiVersion}/diff")]
         [HttpPost]
         public async Task<DiffLib.Packets.CreateIdResponse> Create([FromBody] DiffLib.Packets.CreateIdWorkerRequest data)
@@ -28,6 +40,12 @@ namespace Worker.Controllers
             return await CentralEndPoint.CreateIdAsync(data.Data);
         }
 
+        /// <summary>
+        /// Completes an id by sending request to server (For more info go to DiffLib.Endpoints or DiffLib.AspNetCentralServer)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         [Route("api/v{version:apiVersion}/diff/{id}")]
         [HttpPost]
         public async Task<DiffLib.Packets.CompleteIdResponse> Complete(string id, [FromBody] DiffLib.Packets.CompleteIdWorkerRequest data)

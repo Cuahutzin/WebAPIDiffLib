@@ -7,10 +7,24 @@ using System.Threading.Tasks;
 
 namespace DiffLib
 {
+    /// <summary>
+    /// Implementation of Diff logic.
+    /// </summary>
     public class AspNetCentralServer : ICentralServer
     {
+        /// <summary>
+        /// Holds the state of the created ids and their data
+        /// </summary>
         ICentralServerState State { get; set; }
+        /// <summary>
+        /// The allowed WorkerId that can do operations
+        /// </summary>
         string WorkerId { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="authorizedWorkerId">Whitelisted worker id</param>
+        /// <param name="state">Current state of created ids and their data</param>
         public AspNetCentralServer(string authorizedWorkerId, ICentralServerState state)
         {
             State = state;
@@ -19,6 +33,13 @@ namespace DiffLib
             WorkerId = authorizedWorkerId;
         }
 
+        /// <summary>
+        /// Completes the id with the missing data
+        /// </summary>
+        /// <param name="workerId"></param>
+        /// <param name="id"></param>
+        /// <param name="data">Base64 encoded byte array</param>
+        /// <returns></returns>
         bool ICentralServer.CompleteId(string workerId, string id, string data)
         {
             CheckWorkerId(workerId);
@@ -27,6 +48,12 @@ namespace DiffLib
             return State.CompleteId(id, data);
         }
 
+        /// <summary>
+        /// Creates an id to being the process
+        /// </summary>
+        /// <param name="workerId"></param>
+        /// <param name="data">Base64 encoded byte array</param>
+        /// <returns></returns>
         string ICentralServer.CreateId(string workerId, string data)
         {
             CheckWorkerId(workerId);
@@ -35,6 +62,12 @@ namespace DiffLib
             return State.NewId(data);
         }
 
+        /// <summary>
+        /// Diff operation.
+        /// </summary>
+        /// <param name="workerId"></param>
+        /// <param name="id"></param>
+        /// <returns>Diff result</returns>
         DiffResult ICentralServer.GetDiff(string workerId, string id)
         {
             CheckWorkerId(workerId);

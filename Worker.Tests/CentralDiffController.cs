@@ -12,6 +12,9 @@ namespace Tests
     [TestClass]
     public class CentralDiffController
     {
+        /// <summary>
+        /// Create id action method test (normal operation)
+        /// </summary>
         [TestMethod]
         public void CreateShouldWork()
         {
@@ -28,6 +31,10 @@ namespace Tests
             Assert.AreEqual(result.Id, "newid1");
         }
 
+        /// <summary>
+        /// Complete action method. ICentralServer.CompleteId returns false and action method should throw
+        /// an exception
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(ApplicationException), "Central complete id failed to return true.")]
         public void CompleteShouldWorkThrowException()

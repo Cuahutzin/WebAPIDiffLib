@@ -12,6 +12,9 @@ namespace Tests
     [TestClass]
     public class WorkerDiffController
     {
+        /// <summary>
+        /// Worker action method. Create id test
+        /// </summary>
         [TestMethod]
         public void CreateShouldWork()
         {
@@ -27,6 +30,9 @@ namespace Tests
             Assert.AreEqual(result.Id, "id1");
         }
 
+        /// <summary>
+        /// Worker action method. Complete id test
+        /// </summary>
         [TestMethod]
         public void CompleteShouldWork()
         {
@@ -42,6 +48,9 @@ namespace Tests
             Assert.AreEqual(result.Id, "id1x");
         }
 
+        /// <summary>
+        /// Worker action method. Create id test with null request object
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException), "data is null")]
         public void CreateShouldThrowException()
@@ -58,6 +67,9 @@ namespace Tests
             Assert.AreEqual(result.Id, "id1");
         }
 
+        /// <summary>
+        /// Worker action method. Complete id test with null request object
+        /// </summary>
         [TestMethod]
         [ExpectedException(typeof(NullReferenceException), "data is null")]
         public void CompleteShouldThrowException()

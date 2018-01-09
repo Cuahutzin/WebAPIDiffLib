@@ -12,12 +12,12 @@ namespace DiffLib
     public interface ISender : IDisposable
     {
         /// <summary>
-        /// 
+        /// Async post.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <typeparam name="K"></typeparam>
-        /// <param name="path"></param>
-        /// <param name="obj"></param>
+        /// <typeparam name="T">Response object to be sent to server/entity</typeparam>
+        /// <typeparam name="K">Request object to be sent to server/entity</typeparam>
+        /// <param name="path">Api route</param>
+        /// <param name="obj">See Typeparam K</param>
         /// <returns></returns>
         Task<T> PostAsync<T, K>(string path, K obj) where T : class, new();
         

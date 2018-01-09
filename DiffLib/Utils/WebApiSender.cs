@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace DiffLib
 {
+    /// <summary>
+    /// Web Api implementation. It uses HttpClient under the hood.
+    /// Json data is sent and recieved
+    /// </summary>
     public class WebApiSender : ISender, IDisposable
     {
         HttpClient Client = new HttpClient();
@@ -19,12 +23,21 @@ namespace DiffLib
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        /// <summary>
+        /// Disposes HttpClient object
+        /// </summary>
         public void Dispose()
         {
             if (Client != null)
                 Client.Dispose();
         }
 
+        /// <summary>
+        /// Not used. Private method.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="path"></param>
+        /// <returns></returns>
         private async Task<T> GetAsync<T>(string path) where T : class, new()
         {
             T ret = default(T);
@@ -41,6 +54,14 @@ namespace DiffLib
             return ret;
         }
 
+        /// <summary>
+        /// Post method. For more info see ISender.cs
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="K"></typeparam>
+        /// <param name="path"></param>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         async Task<T> ISender.PostAsync<T, K>(string path, K obj)
         {
             T ret = default(T);
