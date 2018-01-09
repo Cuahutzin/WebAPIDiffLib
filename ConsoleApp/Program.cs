@@ -38,7 +38,7 @@ namespace ConsoleApp
 
         static string Step1()
         {
-            var newconf = new RouteConfTest();
+            var newconf = new Utils.RouteConf();
             var worker1x = new DiffLib.Endpoints.WorkerEndpoint(newconf, new DiffLib.WebApiSender(WorkerBaseAddr));
             var task = worker1x.CreateIdAsync(B1);
             try
@@ -63,7 +63,7 @@ namespace ConsoleApp
 
         static string Step2(string id)
         {
-            var newconf = new RouteConfTest();
+            var newconf = new Utils.RouteConf();
             var worker1x = new DiffLib.Endpoints.WorkerEndpoint(newconf, new DiffLib.WebApiSender(WorkerBaseAddr));
             var task = worker1x.CompleteIdAsync(id, B2);
             try
@@ -88,7 +88,7 @@ namespace ConsoleApp
 
         static string Step3(string id)
         {
-            var newconf = new RouteConfTest();
+            var newconf = new Utils.RouteConf();
             var worker1x = new DiffLib.Endpoints.CentralEndpoint(WorkerId, newconf, new DiffLib.WebApiSender(CentralBaseAddtr));
             var task = worker1x.GetDiffAsync(id);
             try

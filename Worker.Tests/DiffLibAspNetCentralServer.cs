@@ -7,7 +7,7 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
-namespace Worker.Tests
+namespace Tests
 {
     [TestClass]
     public class DiffLibAspNetCentralServer

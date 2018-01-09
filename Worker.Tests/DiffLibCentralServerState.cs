@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Worker.Tests
+namespace Tests
 {
     [TestClass]
     public class DiffLibCentralServerState

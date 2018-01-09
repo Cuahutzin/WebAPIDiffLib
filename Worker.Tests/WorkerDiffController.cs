@@ -7,7 +7,7 @@ using System.Web.Http;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading.Tasks;
 
-namespace Worker.Tests
+namespace Tests
 {
     [TestClass]
     public class WorkerDiffController
@@ -19,7 +19,7 @@ namespace Worker.Tests
             var ret = new DiffLib.Packets.CreateIdResponse() { Id = "id1" };
             mock.Setup(x => x.CreateIdAsync("mydata")).Returns(Task.Run(() => ret));
 
-            Worker.Controllers.DiffController df = new Controllers.DiffController(mock.Object);
+            Worker.Controllers.DiffController df = new Worker.Controllers.DiffController(mock.Object);
             var task = df.Create(new DiffLib.Packets.CreateIdWorkerRequest() { Data = "mydata" });
 
             var result = task.GetAwaiter().GetResult();
@@ -34,7 +34,7 @@ namespace Worker.Tests
             var ret = new DiffLib.Packets.CompleteIdResponse() { Id = "id1x" };
             mock.Setup(x => x.CompleteIdAsync("id1x", "mydata")).Returns(Task.Run(() => ret));
 
-            Worker.Controllers.DiffController df = new Controllers.DiffController(mock.Object);
+            Worker.Controllers.DiffController df = new Worker.Controllers.DiffController(mock.Object);
             var task = df.Complete("id1x", new DiffLib.Packets.CompleteIdWorkerRequest() { Data = "mydata" });
 
             var result = task.GetAwaiter().GetResult();
@@ -50,7 +50,7 @@ namespace Worker.Tests
 
             mock.Setup(x => x.CreateIdAsync("mydata")).Returns(Task.Run(() => { return default(DiffLib.Packets.CreateIdResponse); }));
 
-            Worker.Controllers.DiffController df = new Controllers.DiffController(mock.Object);
+            Worker.Controllers.DiffController df = new Worker.Controllers.DiffController(mock.Object);
             var task = df.Create(null);
 
             var result = task.GetAwaiter().GetResult();
@@ -66,7 +66,7 @@ namespace Worker.Tests
 
             mock.Setup(x => x.CreateIdAsync("mydata")).Returns(Task.Run(() => { return default(DiffLib.Packets.CreateIdResponse); }));
 
-            Worker.Controllers.DiffController df = new Controllers.DiffController(mock.Object);
+            Worker.Controllers.DiffController df = new Worker.Controllers.DiffController(mock.Object);
             var task = df.Complete("id", null);
 
             var result = task.GetAwaiter().GetResult();
