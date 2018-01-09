@@ -7,7 +7,7 @@ using DiffLib.Packets;
 
 namespace DiffLib.Endpoints
 {
-    public class CentralEndpoint : ICentralEndpoint
+    public class CentralEndpoint : ICentralEndpoint, IDisposable
     {
         public string Id { get; private set; }
         protected IRouteConf Conf { get; private set; }
@@ -45,6 +45,11 @@ namespace DiffLib.Endpoints
         public Task<Packets.GetDiffResponse> GetDiffAsync(string id)
         {
             return Sender.PostAsync<GetDiffResponse, GetDiffRequest>(Conf.GetResultPath(id), new GetDiffRequest() { WorkerId = Id });
+        }
+
+        public void Dispose()
+        {
+            Sender.Dispose();
         }
     }
 }

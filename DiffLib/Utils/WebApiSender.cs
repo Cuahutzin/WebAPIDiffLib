@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DiffLib
 {
-    public class WebApiSender : ISender
+    public class WebApiSender : ISender, IDisposable
     {
         HttpClient Client = new HttpClient();
 
@@ -17,6 +17,12 @@ namespace DiffLib
             Client.BaseAddress = new Uri(baseUrl);
             Client.DefaultRequestHeaders.Accept.Clear();
             Client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        public void Dispose()
+        {
+            if (Client != null)
+                Client.Dispose();
         }
 
         private async Task<T> GetAsync<T>(string path) where T : class, new()

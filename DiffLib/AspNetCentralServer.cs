@@ -9,9 +9,9 @@ namespace DiffLib
 {
     public class AspNetCentralServer : ICentralServer
     {
-        CentralServerState State { get; set; }
+        ICentralServerState State { get; set; }
         string WorkerId { get; set; }
-        public AspNetCentralServer(string authorizedWorkerId, CentralServerState state)
+        public AspNetCentralServer(string authorizedWorkerId, ICentralServerState state)
         {
             State = state;
             if (string.IsNullOrEmpty(authorizedWorkerId))
@@ -43,13 +43,16 @@ namespace DiffLib
                 throw new KeyNotFoundException("Id does not exist. " + id);
 
             var result = new DiffResult();
+            if (string.IsNullOrEmpty(obj.Data1) || string.IsNullOrEmpty(obj.Data2))
+                throw new NullReferenceException("Data is null or empty for Id: " + id);
+
             result.Data1 = obj.Data1;
             result.Data2 = obj.Data2;
 
             byte[] da1 = Convert.FromBase64String(obj.Data1);
             byte[] da2 = Convert.FromBase64String(obj.Data2);
             
-            if(da1.Length != da1.Length)
+            if(da1.Length != da2.Length)
             {
                 result.Result = DiffResultEnum.NotEqualSize;
             }
@@ -97,5 +100,6 @@ namespace DiffLib
             if (WorkerId != id)
                 throw new ApplicationException("Worker is not authorized. Id: " + id);
         }
+        
     }
 }

@@ -9,7 +9,7 @@ namespace DiffLib
     /// <summary>
     /// Interface that Worker uses to send data remotely
     /// </summary>
-    public interface ISender
+    public interface ISender : IDisposable
     {
         /// <summary>
         /// 

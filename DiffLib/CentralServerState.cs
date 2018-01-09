@@ -9,7 +9,7 @@ namespace DiffLib
     /// <summary>
     /// WARNING: TODO, IdObjects are not thread safe
     /// </summary>
-    public class CentralServerState
+    public class CentralServerState : ICentralServerState
     {
         public Dictionary<string, IdObject> Table { get; private set; } = new Dictionary<string, IdObject>();
         private object Lock = new object();
